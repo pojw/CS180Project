@@ -10,7 +10,7 @@ public class GameBoard {
             }
         }
     }
-    public String addPlayer(Player player,int[] cordinates){
+    public String addPlayer(int[] cordinates){
         if(cordinates[0]>=8||cordinates[0]<0||cordinates[1]>=8||cordinates[1]<0){
             return "out";
         }else if (board[cordinates[0]][cordinates[1]] !=0) {
@@ -22,7 +22,7 @@ public class GameBoard {
             return "placed";
         }
     }
-    public String addMonster(Monster monster, int[] cordinates){
+    public String addMonster( int[] cordinates){
         if(cordinates[0]>=8||cordinates[0]<0||cordinates[1]>=8||cordinates[1]<0){
             return "out";
         }else if (board[cordinates[0]][cordinates[1]] !=0) {

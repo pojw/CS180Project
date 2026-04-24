@@ -1,45 +1,54 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
-/**
- * GamePanel class
- * A class that extends JPanel
- * Constructor sets background color, initializes the sprite array, and starts an animation timer
- *
- * @author Purdue CS
- * @version April 10, 2026
- */
+public class GamePanel extends JPanel {
 
-class GamePanel extends JPanel {
-    // A list that contains the sprites to be animated
-    private final ArrayList<Sprite> sprites;
+    private GameBoard gameBoard;
 
-    public GamePanel(Color color) {
-        sprites = new ArrayList<>();
+    public GamePanel(GameBoard board) {
+        this.gameBoard = board;
         setFocusable(true);
-        setBackground(color);
+        setBackground(Color.DARK_GRAY); // Background behind the grid
 
-        // Sets a basic time that calls repaint on a set interval
         new Timer(64, e -> {
             repaint();
         }).start();
     }
 
-    // Method to add sprites to the game panel
-    public void addSprite(Sprite s) {
-        this.sprites.add(s);
-    }
-
-    // Method that loops through all sprites and draws them every time repaint is called by the timer
     protected void paintComponent(Graphics g) {
-        // This super call is required!
         super.paintComponent(g);
-        // Loop through sprites and call draw on each
-        for (Sprite s : sprites) {
-            s.draw((Graphics2D) g, s.getX(), s.getY(), getWidth(), getHeight());
+
+        if (gameBoard == null || gameBoard.board == null) {
+            return;
+        }
+
+        int tileWidth = getWidth() / 8;
+        int tileHeight = getHeight() / 8;
+
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+
+                int tileValue = gameBoard.board[x][y];
+
+                if (tileValue == 0) {
+                    g.setColor(Color.GREEN);        //Grass
+                } else if (tileValue == 1) {
+                    g.setColor(Color.RED);          // Player
+                } else if (tileValue == 2) {
+                    g.setColor(Color.ORANGE);       // Monster
+                } else if (tileValue == 3) {
+                    g.setColor(Color.BLUE);         // Water
+                } else if (tileValue == 4) {
+                    g.setColor(Color.YELLOW);       // Start
+                } else if (tileValue == 5) {
+                    g.setColor(Color.MAGENTA);      // End
+                }
+
+                g.fillRect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+
+                g.setColor(Color.BLACK);
+                g.drawRect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+            }
         }
     }
-
 }
-
